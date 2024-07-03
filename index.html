@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        <button>rock</button>
+        <button>paper</button>
+        <button>scissors</button>
+    </p>
+    <p>
+        Human Choice: <span id = "hc">-</span>
+        Computer Choice: <span id = "cc">-</span>
+    </p>
+    <p>
+        Human Score: <span id="hs">-</span>
+        Computer Score: <span id="cs">-</span>
+    </p>
+    <div id="results"></div>
+    <script>
+        let humanScore = 0;
+        let computerScore = 0;
+
+        function getComputerChoice() {
+            let random = Math.random();
+
+            if (random < 0.33) {
+                console.log("rock");
+                return "rock";
+            } else if (random < 0.66) {
+                console.log("scissors");
+                return "scissors";
+            } else {
+                console.log("paper");
+                return "paper";
+            }
+        }
+
+        function getHumanChoice() {
+            let choice = prompt("User Input: ");
+            console.log(choice);
+            return choice.toLowerCase();
+        }
+
+        function playRound(humanChoice, computerChoice) {
+
+            document.getElementById("hc").innerText = humanChoice;
+            document.getElementById("cc").innerText = computerChoice;
+            
+            switch(humanChoice) {
+                case "rock":
+                    switch(computerChoice) {
+                        case "paper":
+                            computerScore++;
+                            break;
+                        case "scissors":
+                            humanScore++;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "paper":
+                    switch(computerChoice) {
+                        case "scissors":
+                            computerScore++;
+                            break;
+                        case "rock":
+                            humanScore++;
+                            break;
+                        default:
+                        break;
+                    }
+                    break;
+                case "scissors":
+                    switch(computerChoice) {
+                        case "rock":
+                            computerScore++;
+                            break;
+                        case "paper":
+                            humanScore++
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    console.log("Invalid input")
+            }
+            console.log(`Human Score: ${humanScore}`);
+            console.log(`Computer Score: ${computerScore}`);
+            document.getElementById("hs").innerText = humanScore;
+            document.getElementById("cs").innerText = computerScore;
+        }
+
+        function checkScore(){
+            if(humanScore == 5){
+                console.log("Human wins")
+                let results = document.createElement("p");
+                results.textContent = "Human wins"; 
+                let targetDiv = document.getElementById("results");
+                targetDiv.appendChild(results);
+                humanScore = 0;
+                computerScore = 0;
+            }
+            else if(computerScore == 5){
+                console.log("Computer wins")
+                let results = document.createElement("p");
+                results.textContent = "Computer wins"; 
+                let targetDiv = document.getElementById("results");
+                targetDiv.appendChild(results);
+                humanScore = 0;
+                computerScore = 0;               
+            }
+        }
+
+        const buttons = document.querySelectorAll("button");
+
+        function handleClick(event) {
+            let choice = event.target.textContent;
+            console.log(choice);
+            playRound(choice, getComputerChoice());
+            checkScore();
+        }
+
+        buttons.forEach(button => {
+            button.addEventListener('click', handleClick);
+        });
+
+    </script>
+</body>
+</html>
